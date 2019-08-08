@@ -45,18 +45,25 @@ class Mean_Shift:
         self.radius = radius
 
     def fit(self, data):
+        plt.scatter(X[:, 0], X[:,1], s = 100, color = color_list)
+        plt.title("Raw Data before calculating KMeans")
+        plt.show()
         points = {} # using the dict command to set points[i] = data[i] and then prev_points = dict(points)
 
         for i in range(len(data)):
             points[i] = data[i]
-        
+   
         while True:
             new_centroids = []
             for i in points:
                 this_group = []
                 point = points[i]
+                plt.scatter(points[i][0], points[i][1], color = 'r', marker = '*', s=250)
+                plt.annotate('center', (points[i][0]+.10, points[i][1] +.15), size=8)
+                plt.annotate((round(points[i][0],2),round(points[i][1],2)), (points[i][0]+ .15, points[i][1] -.18), size=8)
                 for featureset in data: # featureset is the index to X. First entry is featureset: [1 2]. Data is whole array
                     if np.linalg.norm(featureset - point) < self.radius:
+                        plt.scatter(featureset[0], featureset[1], color = 'g', marker = 'o', s = 100)
                         this_group.append(featureset) # Save any point with eud. dist. < radius (set to 4 by default)
 
                 new_centroid = np.average(this_group, axis = 0) # Avg. of all stored points in this_group
@@ -67,14 +74,17 @@ class Mean_Shift:
             points = {}
             for i in range(len(uniques)):
                 points[i] = np.array(uniques[i])
-               
+                
+            
             optimized = True
             for i in points:
                 if not np.array_equal(points[i], prev_points[i]):
                     optimized = False
-                    
+                                        
                 if not optimized:
                     break
+            plt.title("KMeans clustering iteration results")
+            plt.show() 
 
             if optimized:
                 break
@@ -92,9 +102,9 @@ clf.fit(X) #Call the fit code, listed above, which constitutes the majority of t
 
 points = clf.points # Define points (outside the class) as poiting to the class' self.points = points
 
-plt.scatter(X[:, 0], X[:,1], s = 100, color = color_list)
-plt.title("Raw Data before calculating KMeans")
-plt.show() 
+# plt.scatter(X[:, 0], X[:,1], s = 100, color = color_list)
+# plt.title("Raw Data before calculating KMeans")
+# plt.show() 
 
 
 plt.scatter(X[:, 0], X[:,1], s = 100, color = color_list)
