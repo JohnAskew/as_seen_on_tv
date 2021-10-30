@@ -14,7 +14,7 @@ class handDetector():
         self.trackCon = trackCon
 
         self.mpHands = mp.solutions.hands
-        print("mode:",self.mode, "maxHands:", self.maxHands, "detectionCon:", self.detectionCon, "trackCon:", self.trackCon)
+        print("handDetector init: mode:",self.mode, "maxHands:", self.maxHands, "detectionCon:", self.detectionCon, "trackCon:", self.trackCon)
         self.hands = self.mpHands.Hands(self.mode, self.maxHands, self.detectionCon, self.trackCon)
         self.mpDraw = mp.solutions.drawing_utils
 
